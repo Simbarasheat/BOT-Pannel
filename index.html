@@ -1,143 +1,501 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Legacy MD</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legacy Bot - WhatsApp Linker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
   <style>
-    body { font-family: 'DM Sans', sans-serif; }
-   .glow-border { border: 1px solid rgba(56, 189, 248, 0.2); }
-   .hero-glow { background: radial-gradient(ellipse at center top, rgba(56, 189, 248, 0.08) 0%, transparent 60%); }
-   .canva-button:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); transition: all 0.3s ease; }
+    :root {
+      --primary-color: #000000;
+      --secondary-color: #ffffff;
+      --accent-color: #f0f0f0;
+      --text-color: #000000;
+      --background-color: #ffffff;
+      --hover-color: #f5f5f5;
+      --border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: var(--background-color);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 16px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .social-icons a {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-icons a.youtube { background: #FF0000; }
+    .social-icons a.telegram { background: #0088cc; }
+    .social-icons a.whatsapp { background: #0cfa10; }
+    .social-icons a.github { background: #333; }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Toggle Switch Styles */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: var(--hover-color);
+      border-radius: 12px;
+      padding: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .toggle-option {
+      flex: 1;
+      padding: 10px 16px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .toggle-option.active {
+      background: var(--primary-color);
+      color: var(--secondary-color);
+    }
+
+    .toggle-option:not(.active) {
+      color: var(--text-color);
+    }
+
+    .toggle-option:hover:not(.active) {
+      background: var(--background-color);
+    }
+    .copy-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--hover-color);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .copy-btn:hover {
+      background: var(--background-color);
+      border-color: var(--primary-color);
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group.hidden {
+      display: none;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--background-color);
+      color: var(--text-color);
+      font-size: 15px;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-color);
+      border: none;
+      border-radius: 12px;
+      color: var(--secondary-color);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .generate-btn.hidden {
+      display: none;
+    }
+
+    .code-display {
+      background: var(--hover-color);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--border-color);
+    }
+
+    .qr-display {
+      background: var(--hover-color);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 16px;
+      border: 1.5px solid var(--border-color);
+      display: none;
+    }
+
+    .qr-image {
+      max-width: 280px;
+      max-height: 280px;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .qr-instructions {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 1.5;
+    }
+
+    .success-message {
+      color: #000aff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .loading i {
+      font-size: 24px;
+      color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 400px;
+      }
+
+      .code-display {
+        font-size: 16px;
+        min-height: 50px;
+      }
+
+      .qr-image {
+        max-width: 240px;
+        max-height: 240px;
+      }
+
+      .qr-display {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
-<body class="min-h-screen text-white" style="background: linear-gradient(rgb(10, 14, 26), rgb(15, 23, 41));">
-
-  <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-    <div class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-full bg-sky-500/20 flex items-center justify-center">
-        <i data-lucide="bot" class="w-4 h-4 text-sky-400"></i>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo"><i class="fas fa-robot"></i></div>
+      <h1 class="title">Legacy Bot</h1>
+      <p class="subtitle">Link your WhatsApp device</p>
+      <div class="social-icons">
+        <a href="https://www.youtube.com/@SimbarasheMC?sub_confirmation=1" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+        <a href="260760576801@whatsapp.net" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://whatsapp.com/channel/0029Vb8A6Tz8qIzs2X2aFX3n" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://github.com/sat-limited-org/Legacy-MD" target="_blank" class="github"><i class="fab fa-github"></i></a>
       </div>
-      <span class="font-semibold text-[16px]">LEGACY MD</span>
     </div>
-  </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero-glow text-center py-16 px-6">
-      <p class="text-xs text-sky-400 uppercase tracking-widest mb-4">Bot Profile</p>
-
-      <div class="w-28 h-28 mx-auto rounded-full overflow-hidden border-2 border-sky-500/40 mb-6">
-        <img class="w-full h-full object-cover" loading="lazy" src="https://files.catbox.moe/7nodbe.jpg" alt="Legacy MD bot avatar">
+    <!-- Toggle Switch -->
+    <div class="toggle-container">
+      <div class="toggle-option active" data-mode="pair">
+        <i class="fas fa-key"></i> Pair Code
       </div>
-
-      <h1 class="font-bold mb-3 text-[36px]">LEGACY MD</h1>
-
-      <div class="flex flex-wrap justify-center gap-2 mb-5">
-        <span class="text-[16px] px-3 py-1 rounded-full" style="background: rgba(56, 189, 248, 0.098); color: rgb(125, 211, 252);">🟢 16,234 users</span>
-        <span class="text-[16px] px-3 py-1 rounded-full" style="background: rgba(34, 197, 94, 0.098); color: rgb(134, 239, 172);">🟢 Online</span>
-        <span class="text-[16px] px-3 py-1 rounded-full" style="background: rgba(139, 92, 246, 0.098); color: rgb(196, 181, 253);">🐱 SAT Limited</span>
+      <div class="toggle-option" data-mode="qr">
+        <i class="fas fa-qrcode"></i> QR Code
       </div>
+    </div>
 
-      <p class="max-w-lg mx-auto text-[16px] mb-8" style="color: rgb(148, 163, 184);">
-        A WhatsApp bot that automates your chats, statuses, and groups — pair your number and it's online in seconds, no server of your own required.
-      </p>
+    <div class="input-group" id="inputGroup">
+      <label class="input-label">Enter your WhatsApp number with country code</label>
+      <input type="text" id="mobileNumber" class="input-field" placeholder="260XXXXXXXX" pattern="[+][0-9]{10,}" title="Please enter country code starting with + followed by number">
+    </div>
 
-      <!-- CONNECT BUTTON LINKS TO PAIR PAGE -->
-      <a href="/public/pair.html" class="canva-button px-6 py-2.5 rounded-lg font-semibold text-[16px] inline-block" style="background: rgb(14, 165, 233); color: rgb(255, 255, 255);">
-        Connect Bot
-      </a>
+    <button class="generate-btn" id="submit">
+      <i class="fas fa-key"></i> Generate Pair Code
+    </button>
 
-      <div class="flex justify-center gap-6 mt-8 text-[16px]" style="color: rgb(100, 116, 139);">
-        <span>⏱ RunKit 1d ago</span>
-        <span>⚡ 8 Million+ cmds</span>
-        <span>🔄 8 Bots synced</span>
+    <div class="loading" id="loading">
+      <i class="fas fa-spinner"></i>
+    </div>
+
+    <div class="code-display" id="codeDisplay">
+      Your pair code will appear here
+    </div>
+
+    <div class="qr-display" id="qrDisplay">
+      <img id="qrImage" class="qr-image" src="" alt="QR Code">
+      <div class="qr-instructions" id="qrInstructions">
+        Scan this QR code with your WhatsApp app
       </div>
-    </section>
+    </div>
 
-    <!-- Features -->
-    <section class="px-6 py-16 max-w-5xl mx-auto">
-      <p class="text-xs text-sky-400 uppercase tracking-widest text-center mb-2">What the bot does</p>
-      <h2 class="text-center font-bold mb-10 text-[28px]">What Legacy MD does</h2>
+    <button class="copy-btn" id="copy" onclick="copyCode()">
+      <i class="fas fa-copy"></i> Copy Code
+    </button>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="eye" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">Auto status view</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Quietly views your contacts' status updates automatically, so you never miss a post.</p>
-        </div>
+    <div class="footer">
+      <p>© 2026 SAT Limited | Legacy MD Bot</p>
+    </div>
+  </div>
 
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="refresh-cw" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">Auto status react</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Reacts to statuses with a custom emoji you choose, like a 🔥 or ❤️ emoji.</p>
-        </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    let currentMode = 'pair';
 
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="unlock" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">View-once unlock</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Automatically saves view-once photos and videos so you can see them again later.</p>
-        </div>
+    // Toggle functionality
+    document.querySelectorAll('.toggle-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const mode = this.dataset.mode;
+        if (mode === currentMode) return;
 
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="reply" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">Flexible reply modes</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Choose between private, public, or group-only replies to suit your needs.</p>
-        </div>
+        // Update active state
+        document.querySelectorAll('.toggle-option').forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
 
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="wifi" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">Stays online</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Auto reconnects and keeps your WhatsApp session active 24/7 without interruption.</p>
-        </div>
+        // Update mode
+        currentMode = mode;
 
-        <div class="glow-border rounded-xl p-5" style="background: rgba(15, 23, 42, 0.8);">
-          <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center mb-3">
-            <i data-lucide="terminal" class="w-4 h-4 text-sky-400"></i>
-          </div>
-          <h3 class="font-semibold text-[19px] mb-1" style="color: rgb(226, 232, 240);">Modular commands</h3>
-          <p class="text-[16px]" style="color: rgb(100, 116, 139);">Every plugin is modular. Enable or disable features without touching anything else.</p>
-        </div>
-      </div>
-    </section>
+        // Update button and input visibility
+        const submitBtn = document.getElementById('submit');
+        const inputGroup = document.getElementById('inputGroup');
+        
+        if (mode === 'pair') {
+          submitBtn.innerHTML = '<i class="fas fa-key"></i> Generate Pair Code';
+          submitBtn.classList.remove('hidden');
+          inputGroup.classList.remove('hidden');
+        } else {
+          submitBtn.classList.add('hidden');
+          inputGroup.classList.add('hidden');
+          // Auto-generate QR code when QR mode is selected
+          generateQRCode();
+        }
 
-    <!-- Developer -->
-    <section class="px-6 py-16 max-w-3xl mx-auto">
-      <p class="text-xs text-sky-400 uppercase tracking-widest text-center mb-2">Built by</p>
-      <h2 class="text-center font-bold mb-8 text-[24px]">The person behind Legacy MD</h2>
+        // Clear displays
+        document.getElementById('codeDisplay').innerHTML = 'Your pair code will appear here';
+        document.getElementById('qrDisplay').style.display = 'none';
+        document.getElementById('codeDisplay').style.display = 'flex';
+      });
+    });
 
-      <div class="glow-border rounded-xl p-6 flex items-start gap-4" style="background: rgba(15, 23, 42, 0.8);">
-        <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
-          <i data-lucide="user" class="w-5 h-5 text-emerald-400"></i>
-        </div>
-        <div>
-          <p class="font-semibold text-[16px]">Neno</p>
-          <p class="text-[16px] mt-1" style="color: rgb(125, 211, 252);">Admin • JavaScript • SAT Limited</p>
-          <p class="text-[16px] mt-2" style="color: rgb(148, 163, 184);">I maintain Legacy MD — from the coding flow to every command the bot runs.</p>
-        </div>
-      </div>
-    </section>
-  </main>
+    async function generateQRCode() {
+      const codeDisplay = document.getElementById("codeDisplay");
+      const qrDisplay = document.getElementById("qrDisplay");
+      const loadingSpinner = document.getElementById("loading");
 
-  <!-- Footer -->
-  <footer class="border-t border-white/10 py-6 px-6 text-center">
-    <p class="text-[16px]" style="color: rgb(71, 85, 105);">Legacy MD — your one-stop WhatsApp bot. © 2026 SAT Limited</p>
-  </footer>
+      loadingSpinner.style.display = "block";
+      codeDisplay.innerHTML = '';
+      qrDisplay.style.display = 'none';
 
-  <script>lucide.createIcons();</script>
+      try {
+        const response = await axios('/qr');
+        
+        if (response.data.qr) {
+          document.getElementById('qrImage').src = response.data.qr;
+          document.getElementById('qrInstructions').innerHTML = response.data.instructions.join('<br>');
+          qrDisplay.style.display = 'block';
+          codeDisplay.style.display = 'none';
+        } else {
+          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Failed to generate QR code</div>';
+          codeDisplay.style.display = 'flex';
+        }
+      } catch (error) {
+        console.error("Error generating QR code:", error);
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating QR code. Please try again.</div>';
+        codeDisplay.style.display = 'flex';
+      } finally {
+        loadingSpinner.style.display = "none";
+      }
+    }
+
+    document.getElementById("submit").addEventListener("click", async (e) => {
+      e.preventDefault();
+      
+      const mobileNumberInput = document.getElementById("mobileNumber");
+      const codeDisplay = document.getElementById("codeDisplay");
+      const qrDisplay = document.getElementById("qrDisplay");
+      const loadingSpinner = document.getElementById("loading");
+
+      const mobileNumber = mobileNumberInput.value.trim();
+      if (!mobileNumber) {
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Please enter your WhatsApp number</div>';
+        return;
+      }
+
+      loadingSpinner.style.display = "block";
+      codeDisplay.innerHTML = '';
+      qrDisplay.style.display = 'none';
+
+      try {
+        const response = await axios(`/pair?number=${mobileNumber.replace(/[^0-9]/g, "")}`);
+        
+        const code = response.data.code || "Service Unavailable";
+        if (code === "Service Unavailable") {
+          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Service Unavailable</div>';
+        } else {
+          codeDisplay.innerHTML = `<div class="success-message"><i class="fas fa-check-circle"></i> CODE: ${code}</div>`;
+        }
+        codeDisplay.style.display = 'flex';
+      } catch (error) {
+        console.error("Error generating code:", error);
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating code. Please try again.</div>';
+        codeDisplay.style.display = 'flex';
+      } finally {
+        loadingSpinner.style.display = "none";
+      }
+    });
+    function copyCode() {
+      const codeDisplay = document.getElementById("codeDisplay").innerText;
+      const code = codeDisplay.replace('CODE: ', '');
+      navigator.clipboard.writeText(code).then(() => {
+        const copyBtn = document.getElementById("copy");
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
+    }
+  </script>
 </body>
 </html>
