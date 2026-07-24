@@ -397,7 +397,7 @@
         // Update button and input visibility
         const submitBtn = document.getElementById('submit');
         const inputGroup = document.getElementById('inputGroup');
-        
+
         if (mode === 'pair') {
           submitBtn.innerHTML = '<i class="fas fa-key"></i> Generate Pair Code';
           submitBtn.classList.remove('hidden');
@@ -427,7 +427,7 @@
 
       try {
         const response = await axios('/qr');
-        
+
         if (response.data.qr) {
           document.getElementById('qrImage').src = response.data.qr;
           document.getElementById('qrInstructions').innerHTML = response.data.instructions.join('<br>');
@@ -448,7 +448,7 @@
 
     document.getElementById("submit").addEventListener("click", async (e) => {
       e.preventDefault();
-      
+
       const mobileNumberInput = document.getElementById("mobileNumber");
       const codeDisplay = document.getElementById("codeDisplay");
       const qrDisplay = document.getElementById("qrDisplay");
@@ -466,7 +466,7 @@
 
       try {
         const response = await axios(`/pair?number=${mobileNumber.replace(/[^0-9]/g, "")}`);
-        
+
         const code = response.data.code || "Service Unavailable";
         if (code === "Service Unavailable") {
           codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Service Unavailable</div>';
